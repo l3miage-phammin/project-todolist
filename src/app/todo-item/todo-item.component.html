@@ -1,0 +1,19 @@
+            
+<div class="view" (dblclick) = 'openEdit()'>
+    <input  class = "toggle"
+            type  = "checkbox"
+            name  = "done"
+            [ngModel] = "todoItem.isDone"
+            (ngModelChange)="updateStatus($event)"
+    />
+    <label  class = "texte">{{todoItem.label}}</label>
+    <button class="destroy btn" (click)="deleteItem()"></button>
+  </div>
+  <form>
+    <input  #newTextInput
+            name      = "newTextInput"
+            class     = "edit"
+            (keyup.enter)="editLabel()"
+            [(ngModel)]="label" 
+    />
+  </form>

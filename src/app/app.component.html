@@ -1,0 +1,11 @@
+
+  <div *ngIf="!user">
+    <h3>Please login.</h3>
+    <button (click)="login()">Login with Google</button>
+  </div>
+  <div *ngIf="user$ | async as user">
+    <h1>Hello {{ user.displayName }}!</h1>
+    <button (click)="logOut()">Logout</button>
+    <app-todo-list></app-todo-list>
+  </div>  
+  

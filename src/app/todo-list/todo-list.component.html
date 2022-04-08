@@ -1,0 +1,74 @@
+<div *ngIf="this.todoListService.afItems| async  as items">
+  <section class="todoapp">
+    <header class="header">
+      <h1>Todolist</h1>
+
+      <form>
+        <input
+          name="newTodoInput"
+          class="new-todo"
+          placeholder="Que faire?"
+          autofocus
+          [(ngModel)]="label"
+          (keyup.enter)="addTodo()"
+        />
+      </form>
+    </header>
+    <section class="main">
+      <input
+        class="toggle-all"
+        type="checkbox"
+        name="toggleAll"
+        [ngModel]="allMarked"
+      />
+      <label for="toggleAll" (click)="markAndUnmark()"
+        >Mark all as complete</label
+      >
+      <ul class="todo-list">
+        <li
+          *ngFor="let item of listItems; index as i; trackBy: trackById"
+          [class.completed]="item.isDone"
+          [class.editing]="getIsEditing(i)"
+        >
+          <app-todo-item
+            #refItem
+            [todoItem]="item"
+            (updateEvent)="updateItem($event, item)"
+            (removeEvent)="deleteItem(item)"
+          >
+          </app-todo-item>
+        </li>
+      </ul>
+    </section>
+    <footer class="footer" *ngIf="todoList?.items?.length">
+      <span class="todo-count"
+        ><strong>{{ restant }}</strong> restantes</span
+      >
+
+      <ul class="filters">
+        <li>
+          <a class="filterAll" [class.selected]="filter === 'all'" (click)="changeFilter('all')">Tous</a>
+        </li>
+        <li>
+          <a class="filterActives" [class.selected]="filter === 'active' " (click)="changeFilter('active')">Actifs</a>
+        </li>
+        <li>
+          <a class="filterCompleted" [class.selected]="filter === 'completed' " (click)="changeFilter('completed')" >Complétés</a>
+        </li>
+      </ul>
+      <button
+        *ngIf="somethingIsDone()"
+        class="clear-completed btn"
+        (click)="unmarkAll()"
+      >
+        Supprimer cochées
+      </button>
+    </footer>
+  </section>
+
+  <button (click)="undo()">undo</button>
+  <button (click)="redo()">redo</button>
+  <button (click)="todoListService.getLocalTodo()">Get local todoList</button>
+  <button (click)="todoListService.updateLocalStorage()">Update local todoList</button>
+
+</div>
